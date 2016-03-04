@@ -1,0 +1,4 @@
+include lc_predictor/trained_data/*.dict
+include lc_predictor/trained_data/*.pkl
+include lc_predictor/input_data/*.dat
+include lc_predictor/input_data/spectra*/*

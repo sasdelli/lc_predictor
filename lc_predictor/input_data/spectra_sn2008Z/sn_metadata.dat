@@ -1,0 +1,11 @@
+#     Helio_Redshift is used to deredshift the spectra and take into account time dilation to calculate the epochs.
+#     
+#     Set Deredshift_spectra to 1 if the spectra are in the observer frame
+#
+SN_Name               SN2008Z
+Helio_Redshift        0.021000
+Date_Bmax             54514.70
+Deredshift_spectra    1
+
+
+
