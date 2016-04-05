@@ -2,7 +2,7 @@
 lc_predictor
 ==========================================
 
-## Instalation
+## Installation
 
 Steps to install the package on a fresh Ubuntu 14.04:
 
