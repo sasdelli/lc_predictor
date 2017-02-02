@@ -38,7 +38,7 @@ def calculate_pls_curve(coeff, pls_band='Bmag', pls_dict_file=None):
             dict = pickle.loads(pkgutil.get_data(
                 'lc_predictor', 'trained_data/pls_%s.dict' % bands))
         else:
-            filehandler3 = open(file_name, 'r')
+            filehandler3 = open(pls_dict_file, 'r')
             dict = pickle.load(filehandler3)
             filehandler3.close()
         plsca = dict2plsca(dict)
