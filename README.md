@@ -50,11 +50,17 @@ Finally, install ``empca.py`` (see below)
 ### Installing empca.py
 
 The lc_predictor module requires the ``empca.py`` (Bailey 2012). Download it
-and put it in a location where python will find it, e.g.:
+and put it in a location where python will find it, e.g.: using ``wget``
 ```cmd
 wget https://github.com/sbailey/empca/raw/master/empca.py \
     -O $HOME/.local/lib/python2.7/site-packages/empca.py
 ```
+or ``curl``
+```cmd
+curl -L https://github.com/sbailey/empca/raw/master/empca.py -o \
+    -o $HOME/.local/lib/python2.7/site-packages/empca.py
+```
+or by manually downloading and moving it.
 
 If you are using anaconda/miniconda, you could also move it to the environment
 directory. In the case of miniconda (assuming a standard installation) this
