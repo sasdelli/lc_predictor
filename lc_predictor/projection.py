@@ -9,6 +9,13 @@ import pkgutil
 import os
 
 def calculate_empca_projections(derivative, weight,empca_dict_file=None):
+    """
+    This returns the empca projections of a SN.
+    The empca_dict_file is a pickled dictionary with the value of the
+    mean derivative and the eigenvectors of the PCA analysis.
+
+    """
+
     if empca_dict_file == None:
         empca_dict = pickle.loads(pkgutil.get_data(
             'lc_predictor', 'trained_data/trained_empca.dict'))
@@ -38,7 +45,7 @@ def calculate_pls_curve(coeff, pls_band='Bmag', pls_dict_file=None):
             dict = pickle.loads(pkgutil.get_data(
                 'lc_predictor', 'trained_data/pls_%s.dict' % bands))
         else:
-            filehandler3 = open(file_name, 'r')
+            filehandler3 = open(pls_dict_file, 'r')
             dict = pickle.load(filehandler3)
             filehandler3.close()
         plsca = dict2plsca(dict)
@@ -60,6 +67,12 @@ def calculate_pls_curve(coeff, pls_band='Bmag', pls_dict_file=None):
 
 def read_input(input='input_data/spectra_sn2008Z/',
                SN_METADATA='sn_metadata.dat', SPECTRA_METADATA='metadata.dat'):
+    """
+    The function reads the data from the input dir of a SN with the proper formatting.
+    It returns a dictionary with the SN metadata.
+    """
+
+
     if not input[0] in ['/', '~', '.']:
         input = pkgutil.get_loader('lc_predictor').filename + '/' + input
     dirin = False
@@ -112,6 +125,19 @@ def read_input(input='input_data/spectra_sn2008Z/',
 def calculate_derivative(input_data, 
                          empca_dict_file=None,
                          redd_corr=None):
+    """
+    The function takes an input_data dictionary (for example built 
+    with with projection.read_input()) and returns the time binned
+    derivative of the spectra.
+    The empca_dict_file is a pickled dictionary file that specifies
+    the parameters of the data processing.
+    These parameters are the time bins ('bins'), the wavelength range
+    in Angstroms ([start_wave, end_wave, step]), the savitzky golay 
+    parameters ([ window in velocity space in km/s, degree of 
+    polynomial, factor_window**2 ])  
+
+    """
+
     if empca_dict_file == None:
         empca_dict = pickle.loads(pkgutil.get_data('lc_predictor',
                                   'trained_data/trained_empca.dict'))
@@ -158,7 +184,13 @@ def calculate_derivative(input_data,
         return new_wave, new_sp, new_w
 
     def calculate_res(spectrum_wave, spectrum_values):
+        """
+        Calculate the residuals to estimate the weights of the spectrum.
+        """
         def rebin_(x, y, wave_out):
+            """
+            This rebins the spectrum with a new wavelength grid.
+            """
             f = scipy.interpolate.interp1d(x, y)
             min_i = min([
                 i for i in range(np.size(wave_out)) if wave_out[i] > x[0] ])
@@ -239,6 +271,9 @@ def calculate_derivative(input_data,
         return wave, value, weight
 
     def redd_law(wave, spectrum, redd=0.):
+        """
+        Applies a simple reddening correction to the spectra.
+        """
         out_spectrum = np.array(spectrum)*10**(
             0.4*(redd*(3.1+2.002*((10000./np.array(wave))-(1.0/0.55)))))
         return out_spectrum
